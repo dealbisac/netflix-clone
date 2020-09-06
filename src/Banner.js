@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from './axios';
 import requests from './requests';
+import './Banner.css';
 
 function Banner() {
 
@@ -17,14 +18,41 @@ function Banner() {
         fetchData();
     }, []);
 
-    console.log(movie);
+    //console.log(movie);
+
+    function truncate(str, n) {
+        return str?.length > n ? str.substr(0, n - 1) + "..." : str;
+    }
+
 
     return (
-        <header>
-            {/* Background image */}
-            {/* title */}
-            {/* div > 2 buttons */}
-            {/* description */}
+        <header className="banner"
+            style={{
+                backgroundSize: "cover",
+                backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`,
+                backgroundPosition: "center center",
+            }}
+        >{/* Background image */}
+            <div className="banner__contents">
+                {/* title */}
+                <h1 className="banner__title">
+                    {/* ? - optional chaining / handle errors as well */}
+                    {movie?.title || movie?.name || movie?.original_name}
+                </h1>
+
+                {/* div > 2 buttons */}
+                <div className="banner__buttons">
+                    <button className="banner__button">Play</button>
+                    <button className="banner__button">My List</button>
+                </div>
+
+                {/* description */}
+                <h1 className="banner__description">
+                    {truncate(movie?.overview, 250)}
+                </h1>
+            </div>
+
+            <div className="banner--fadeBottom"></div>
         </header>
     )
 }
